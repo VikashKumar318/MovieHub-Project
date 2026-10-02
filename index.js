@@ -38,7 +38,9 @@ function displayMovies(data){
     movieAppend.innerHTML = "";
 
    data.forEach((movie) => {
-     let div = document.createElement("div")
+     let div = document.createElement("div");
+     div.dataset.id = movie.imdbID;
+     div.setAttribute("class", "movie-card");
 
     div.innerHTML = ` <div>
             <img src=${movie.Poster} alt="">
@@ -50,9 +52,20 @@ function displayMovies(data){
         </div>`
 
         movieAppend.append(div)
+
+        // div.addEventListener("click", () => {
+        //     console.log(movie.imdbID);
+        // })
     
    });
 
 
 }
-// displayMovies(data)
+
+
+ movieAppend.addEventListener("click", (e) => {
+    e.preventDefault();
+    const movieCard = e.target.closest(".movie-card");
+    const imdbID = movieCard.dataset.id
+    console.log(imdbID);
+ });
