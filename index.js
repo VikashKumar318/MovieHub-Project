@@ -26,10 +26,16 @@ async function searchMovie(movieName){
     //   movieAppend.innerHTML = `<p>Searching movie...</p>`
       movieAppend.innerHTML = `<p class="loader"></p>`
 
-let response = await fetch(`http://www.omdbapi.com/?apikey=2bd3df80&s=${movieName}`);
+let response = await fetch( `https://www.omdbapi.com/?apikey=2bd3df80&s=${encodeURIComponent(movieName)}`);
 let data = await response.json()
 console.log(data);
-displayMovies(data.Search);
+
+if (data.Response === "True") {
+    displayMovies(data.Search);
+    
+}else{
+    movieAppend.innerHTML =  `<p>${data.Error}</p>`
+}
 
 }
 
@@ -68,4 +74,6 @@ function displayMovies(data){
     const movieCard = e.target.closest(".movie-card");
     const imdbID = movieCard.dataset.id
     console.log(imdbID);
+
+    location.href = `movie-details.html?id=${imdbID}`
  });
